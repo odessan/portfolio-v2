@@ -1,0 +1,29 @@
+---
+title: Kopi Run
+summary: A Flutter ordering app for a coffee chain, built so the queue moves before you arrive.
+disciplines: [mobile]
+type: client
+year: 2025
+role: Mobile lead
+stack: [Flutter, Dart, Riverpod, Firebase]
+featured: true
+order: 2
+links:
+  store: https://apps.apple.com/
+---
+
+## The problem
+
+A growing coffee chain lost customers to the morning queue. Their old app was a web view that forgot your order, logged you out and froze on weak mall Wi-Fi.
+
+## What I built
+
+A native-feeling Flutter app for iOS and Android. Customers save a usual order, pick a pickup time and pay before they leave the office. The barista screen shows orders in the sequence people will actually arrive.
+
+## How
+
+Riverpod keeps state predictable across the menu, cart and checkout. Orders queue locally and sync when the signal returns, so a dropped connection never loses a paid order. Animations stay at 60fps on four-year-old Android phones, which I tested on real devices, not just the simulator.
+
+## Result
+
+Mobile orders passed walk-in orders at two outlets within three months. The app holds a 4.8 rating, and the most common review mentions that it simply remembers what you like.

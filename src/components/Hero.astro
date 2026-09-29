@@ -1,0 +1,53 @@
+---
+import Bracket from "./Bracket.astro";
+import Pill from "./Pill.astro";
+import Chara from "./Chara.astro";
+
+const stickers = [
+  { label: "React", d: "web", bg: "bg-blue", x: 45, y: 6, mx: 3, my: 20, r: -6 },
+  { label: "TypeScript", d: "web", bg: "bg-blue", x: 47, y: 18, mx: 38, my: 10, r: 5 },
+  { label: "Dart", d: "mobile", bg: "bg-pink", x: 58, y: 7, mx: 80, my: 26, r: -10 },
+  { label: "Flutter", d: "mobile", bg: "bg-pink", x: 55, y: 29, mx: 10, my: 74, r: 7 },
+  { label: "Astro", d: "side", bg: "bg-lilac", x: 40, y: 66, mx: 48, my: 72, r: 9 },
+  { label: "GSAP", d: "side", bg: "bg-green", x: 54, y: 72, mx: 74, my: 86, r: -8 },
+];
+---
+
+<section class="hero relative isolate z-10 flex flex-col justify-between gap-20 overflow-x-clip pt-36 pb-4 md:min-h-[calc(100svh-72px)] md:gap-16 md:pt-[10svh] md:pb-16">
+  <div class="pointer-events-none absolute inset-0 mx-auto max-w-7xl max-md:hidden">
+    <Chara pose="wave" data-slot="0" class="slot absolute top-[4%] right-8 w-[min(32vw,440px)]" />
+  </div>
+
+  <ul class="pointer-events-none absolute inset-0 z-20 mx-auto max-w-7xl" aria-label="Stack">
+    {
+      stickers.map((s) => (
+        <li
+          data-d={s.d}
+          class={`sticker pointer-events-auto absolute top-(--my) left-(--mx) rounded-pill px-3.5 py-1.5 text-body-sm font-semibold whitespace-nowrap text-just-black select-none md:top-(--y) md:left-(--x) md:px-5 md:py-2.5 md:text-body-lg ${s.bg}`}
+          style={{ "--x": `${s.x}%`, "--y": `${s.y}%`, "--mx": `${s.mx}%`, "--my": `${s.my}px`, rotate: `${s.r}deg` }}
+        >
+          {s.label}
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="mx-auto w-full max-w-7xl px-4 md:px-8">
+    <h1 class="hero-title relative z-10 text-display font-semibold text-cream" aria-label="Build Anything.">
+      <span class="hero-line block">Build</span>
+      <span class="hero-line relative block"><span class="hero-word">Anything.</span></span>
+    </h1>
+  </div>
+
+  <div class="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 md:flex-row md:items-end md:justify-between md:px-8">
+    <Bracket class="whitespace-nowrap">
+      <span class="md:hidden">Freelance full-stack & Flutter dev</span><span class="max-md:hidden"
+        >Full-stack & Flutter developer, available for freelance</span
+      >
+    </Bracket>
+    <div class="flex shrink-0 flex-wrap gap-3" data-reveal>
+      <Pill href="/contact" variant="gradient">Start a project</Pill>
+      <Pill href="/work">See work</Pill>
+    </div>
+  </div>
+</section>

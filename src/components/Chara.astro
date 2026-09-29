@@ -1,0 +1,44 @@
+---
+export type Pose = "wave" | "about";
+type Props = { pose: Pose; class?: string; eager?: boolean; decorative?: boolean; mirror?: boolean; [k: `data-${string}`]: string };
+const { pose, class: cls = "", eager = false, decorative = false, mirror = false, ...rest } = Astro.props;
+
+const alts: Record<Pose, string> = {
+  wave: "Illustration of Edo waving up at the camera",
+  about: "Illustration of Edo smiling up at the camera, holding a laptop",
+};
+const file = pose === "about" ? "edo" : `pose-${pose}`;
+const icons = [
+  { d: "web", left: 16.76, top: 68.76, width: 18.09 },
+  { d: "mobile", left: 45.81, top: 81.74, width: 14.71 },
+];
+---
+
+<div class:list={["chara", !/\babsolute\b/.test(cls) && "relative", cls]} data-pose={pose} {...rest}>
+  <img
+    src={`/hero/${file}.webp`}
+    srcset={`/hero/${file}-560.webp 560w, /hero/${file}.webp 1122w`}
+    sizes="(min-width: 768px) 520px, 78vw"
+    width="1122"
+    height="1402"
+    alt={decorative ? "" : alts[pose]}
+    loading={eager ? "eager" : "lazy"}
+    fetchpriority={eager ? "high" : undefined}
+    decoding="async"
+    class:list={["chara-img block h-auto w-full select-none", mirror && "-scale-x-100"]}
+    draggable="false"
+  />
+  {
+    pose === "about" &&
+      icons.map((i) => (
+        <img
+          src={`/hero/icon-${i.d}.webp`}
+          alt=""
+          loading={eager ? "eager" : "lazy"}
+          class="chara-icon absolute h-auto select-none"
+          style={{ left: `${i.left}%`, top: `${i.top}%`, width: `${i.width}%` }}
+          draggable="false"
+        />
+      ))
+  }
+</div>

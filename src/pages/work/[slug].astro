@@ -1,0 +1,97 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Blob from "../../components/Blob.astro";
+import DisciplineLabel from "../../components/DisciplineLabel.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+
+export async function getStaticPaths() {
+  const projects = (await getCollection("projects")).sort((a, b) => b.data.year - a.data.year || a.data.order - b.data.order);
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }));
+}
+
+type Props = { project: CollectionEntry<"projects">; next: CollectionEntry<"projects"> };
+const { project, next } = Astro.props;
+const { title, summary, disciplines: ds, type, year, role, stack, cover, links, nda } = project.data;
+const { Content } = await render(project);
+
+const linkList = [
+  links.live && { label: "Live", href: links.live },
+  links.repo && { label: "Repo", href: links.repo },
+  links.store && { label: "App Store", href: links.store },
+].filter((l): l is { label: string; href: string } => !!l);
+const seed = [...project.id].reduce((a, c) => a + c.charCodeAt(0), 0);
+---
+
+<Base title={title} description={summary}>
+  <article class="mx-auto max-w-7xl px-4 pt-12 pb-24 md:px-8 md:pt-16">
+    <a href="/work" class="inline-flex min-h-11 items-center text-body-sm text-muted transition-colors hover:text-cream">← All work</a>
+
+    <header class="mt-10 flex flex-col gap-6">
+      <p class="flex flex-wrap items-baseline gap-x-5 gap-y-2">
+        {ds.map((d) => <DisciplineLabel discipline={d} size="lg" />)}
+        <span class="text-body-sm text-muted capitalize">{type}</span>
+      </p>
+      <h1 class="split-lines text-heading-lg font-semibold">{title}</h1>
+      <p class="max-w-[52ch] text-body-lg text-muted">{summary}</p>
+    </header>
+
+    <dl class="mt-10 grid grid-cols-2 gap-x-6 gap-y-6 border-y border-hairline py-8 md:mt-12 lg:grid-cols-4">
+      <div class="flex flex-col gap-1.5">
+        <dt class="text-caption text-muted">Role</dt>
+        <dd class="text-body">{role}</dd>
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <dt class="text-caption text-muted">Year</dt>
+        <dd class="text-body">{year}</dd>
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <dt class="text-caption text-muted">Stack</dt>
+        <dd class="text-body">{stack.join(" · ")}</dd>
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <dt class="text-caption text-muted">Links</dt>
+        <dd class="flex flex-wrap gap-x-5 text-body">
+          {
+            linkList.length ? (
+              linkList.map((l) => (
+                <a href={l.href} class="underline decoration-hairline underline-offset-[5px] hover:decoration-cream">
+                  {l.label} ↗
+                </a>
+              ))
+            ) : (
+              <span class="text-muted">{nda ? "Private (NDA)" : "Not public"}</span>
+            )
+          }
+        </dd>
+      </div>
+    </dl>
+
+    <div class="mt-12 grid aspect-16/10 place-items-center overflow-hidden rounded-card bg-off-black md:aspect-2/1">
+      {
+        cover ? (
+          <img src={cover} alt={`${title} screenshot`} width="1600" height="800" class="size-full object-cover" />
+        ) : (
+          <Blob discipline={ds[0]} seed={seed} float class="hero-blob w-[46%] max-w-120" />
+        )
+      }
+    </div>
+
+    <div class="prose-case mx-auto mt-20 max-w-[68ch]">
+      {nda && <p class="text-body-sm! text-muted">Details anonymised under NDA.</p>}
+      <Content />
+    </div>
+  </article>
+
+  <section class="border-t border-hairline" aria-labelledby="next-h">
+    <div class="mx-auto max-w-7xl px-4 py-20 md:px-8">
+      <h2 id="next-h" class="mb-10 text-body-sm font-normal md:text-body" data-reveal>{"{ Next project }"}</h2>
+      <div class="cards max-w-130">
+        <ProjectCard project={next} />
+      </div>
+    </div>
+  </section>
+</Base>

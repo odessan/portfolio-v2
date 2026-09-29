@@ -1,0 +1,25 @@
+---
+import Blob from "./Blob.astro";
+import DisciplineLabel from "./DisciplineLabel.astro";
+import Pill from "./Pill.astro";
+import { disciplines, type Discipline } from "../lib/disciplines";
+
+type Props = { discipline: Discipline; heading: string; body: string; seed: number };
+const { discipline, heading, body, seed } = Astro.props;
+const d = disciplines[discipline];
+---
+
+<article
+  class="service grid grid-cols-[1fr_auto] items-center gap-x-6 gap-y-5 border-t border-hairline py-14 md:grid-cols-2 md:gap-16 md:py-19"
+>
+  <div class="col-start-2 row-start-1 flex justify-end md:col-start-1 md:justify-start">
+    <Blob discipline={discipline} seed={seed} class="service-blob w-28 md:w-full md:max-w-105" />
+  </div>
+  <div class="service-text contents md:flex md:flex-col md:items-start md:gap-5">
+    <DisciplineLabel discipline={discipline} class="col-start-1 row-start-1 max-md:text-subheading max-md:font-semibold" />
+    <h3 class="col-span-2 text-heading-sm font-semibold">{heading}</h3>
+    <p class="col-span-2 max-w-[46ch] text-body-lg">{body}</p>
+    <p class="col-span-2 text-body-sm text-muted">{d.stack}</p>
+    <Pill href={`/work?d=${discipline}`} class="col-span-2 mt-2 justify-self-start md:mt-3">See {d.label.toLowerCase()} work</Pill>
+  </div>
+</article>

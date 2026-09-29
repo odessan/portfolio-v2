@@ -1,0 +1,7 @@
+---
+type Props = { class?: string };
+---
+
+<p class:list={["bracket text-body-sm md:text-body text-cream", Astro.props.class]} data-reveal>
+  {"{ "}<slot />{" }"}
+</p>

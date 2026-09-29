@@ -1,0 +1,12 @@
+---
+import { disciplines, type Discipline } from "../lib/disciplines";
+
+type Props = { discipline: Discipline; size?: "md" | "lg"; class?: string };
+const { discipline, size = "md", class: className } = Astro.props;
+const d = disciplines[discipline];
+---
+
+<span
+  class:list={[size === "lg" ? "text-subheading font-semibold" : "text-body md:text-body-lg", className]}
+  style={{ color: d.color }}>{d.label}</span
+>

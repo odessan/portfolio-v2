@@ -1,0 +1,48 @@
+---
+import "@fontsource-variable/dm-sans";
+import "../styles/global.css";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../lib/site";
+
+type Props = { title?: string; description?: string };
+const title = Astro.props.title ? `${Astro.props.title} · ${site.name}` : site.title;
+const description = Astro.props.description ?? site.description;
+const og = new URL("/og.png", Astro.site ?? Astro.url).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0e100f" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site ?? Astro.url).href} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={og} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={og} />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="fixed top-3 left-3 z-60 -translate-y-24 rounded-pill border border-cream bg-just-black px-5 py-3 text-body-sm font-semibold focus:translate-y-0"
+      >Skip to content</a
+    >
+    <Nav />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import "../lib/motion";
+    </script>
+  </body>
+</html>

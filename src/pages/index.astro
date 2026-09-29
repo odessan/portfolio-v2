@@ -1,0 +1,72 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Hero from "../components/Hero.astro";
+import Bracket from "../components/Bracket.astro";
+import ServiceRow from "../components/ServiceRow.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import About from "../components/About.astro";
+import Pill from "../components/Pill.astro";
+import Chara from "../components/Chara.astro";
+
+const featured = (await getCollection("projects", (p) => p.data.featured)).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base>
+  <Hero />
+
+  <div class="border-t border-hairline">
+    <About />
+  </div>
+
+  <div class="border-t border-hairline">
+  <section class="services mx-auto max-w-7xl px-4 pt-16 md:px-8 md:pt-32" aria-labelledby="services-h">
+    <div class="mb-8 flex flex-col gap-4 md:mb-14">
+      <Bracket>Services</Bracket>
+      <h2 id="services-h" class="split-lines text-heading font-semibold">What I build.</h2>
+    </div>
+    <div class="services-track">
+    <ServiceRow
+      discipline="web"
+      seed={21}
+      heading="Fast, accessible web apps that feel native."
+      body="From marketing sites to full dashboards: React, TypeScript and Tailwind, shipped with tests and good Lighthouse scores."
+    />
+    <ServiceRow
+      discipline="mobile"
+      seed={34}
+      heading="One codebase, two app stores."
+      body="Flutter apps for iOS and Android with smooth 60fps UI, offline support and clean state management."
+    />
+    </div>
+  </section>
+  </div>
+
+  <section class="border-t border-hairline" aria-labelledby="work-h">
+    <div class="mx-auto max-w-7xl px-4 py-20 md:px-8 md:py-32">
+      <div class="mb-8 flex flex-col gap-4 md:mb-14">
+        <Bracket>Selected Work</Bracket>
+        <h2 id="work-h" class="split-lines text-heading font-semibold">Things I've shipped.</h2>
+      </div>
+      <div class="cards grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        {featured.map((p) => <ProjectCard project={p} />)}
+      </div>
+      <Pill href="/work" class="mt-12 md:mt-14">See all work</Pill>
+    </div>
+  </section>
+
+  <section class="border-t border-hairline" aria-labelledby="cta-h">
+    <div class="mx-auto flex max-w-7xl flex-col items-start gap-8 px-4 py-24 md:px-8 md:py-40">
+      <Bracket>Got a project?</Bracket>
+      <h2 id="cta-h" class="split-lines text-heading-lg font-semibold">Let's build it.</h2>
+      <Pill href="/contact" variant="gradient" data-reveal>Start a project</Pill>
+    </div>
+  </section>
+
+  <div class="traveler pointer-events-none fixed top-0 left-0 z-0 hidden w-100" aria-hidden="true">
+    <div class="traveler-body relative">
+      <Chara pose="wave" decorative class="pose" />
+      <Chara pose="about" decorative class="pose absolute inset-0" />
+    </div>
+  </div>
+</Base>

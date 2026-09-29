@@ -1,0 +1,28 @@
+---
+title: Ledgerly
+summary: A cash-flow dashboard for a fintech startup, from raw bank feeds to a 2-second load.
+disciplines: [web]
+type: client
+year: 2026
+role: Solo developer
+stack: [React, TypeScript, Tailwind, Node, Express, MongoDB]
+featured: true
+order: 1
+nda: true
+---
+
+## The problem
+
+The finance team exported bank statements into spreadsheets every Monday and spent most of the day reconciling them. Numbers disagreed between people, and nobody trusted the forecast.
+
+## What I built
+
+A web dashboard that pulls transactions from three bank feeds, categorises them automatically and shows runway, burn and upcoming payments on a single screen. Accountants can override any category, and the override trains the next import.
+
+## How
+
+A Node and Express service normalises each bank's format into one transaction model in MongoDB. The React front end streams the first screen of data, then hydrates charts as the rest arrives. Every calculation has a unit test, because finance teams notice a rounding error before they notice a new feature.
+
+## Result
+
+Monday reconciliation went from most of a day to about twenty minutes. The dashboard loads in under two seconds on a mid-range laptop, and the forecast is now the number people quote in meetings.

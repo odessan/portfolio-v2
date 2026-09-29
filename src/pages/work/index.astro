@@ -1,0 +1,80 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Bracket from "../../components/Bracket.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { disciplines, disciplineKeys } from "../../lib/disciplines";
+
+const projects = (await getCollection("projects")).sort((a, b) => b.data.year - a.data.year || a.data.order - b.data.order);
+const filters = [{ key: "", label: "All", color: "#fffce1" }, ...disciplineKeys.map((k) => ({ key: k, ...disciplines[k] }))];
+---
+
+<Base title="Work" description="Web and mobile projects by Edo Wijaya, for clients and for fun.">
+  <section class="mx-auto max-w-7xl px-4 pt-14 pb-24 md:px-8 md:pt-28 md:pb-28">
+    <div class="flex flex-col gap-4">
+      <Bracket>Work</Bracket>
+      <h1 class="split-lines text-heading-lg font-semibold">Everything I've built.</h1>
+    </div>
+
+    <nav aria-label="Filter by discipline" class="mt-12 mb-14">
+      <ul class="flex flex-wrap gap-3">
+        {
+          filters.map((f) => (
+            <li>
+              <a
+                href={f.key ? `/work?d=${f.key}` : "/work"}
+                data-filter={f.key}
+                aria-current={f.key === "" ? "true" : undefined}
+                style={{ "--c": f.color }}
+                class="filter inline-flex min-h-11 items-center rounded-pill border border-hairline px-5 py-2.5 text-body-sm font-semibold transition-colors hover:border-(--c)"
+              >
+                <span style={{ color: f.color }}>{f.label}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <p id="filter-status" class="sr-only" aria-live="polite"></p>
+
+    <div class="cards grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      {projects.map((p) => <ProjectCard project={p} headingLevel="h2" />)}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .filter[aria-current="true"] {
+    border-color: var(--c);
+  }
+</style>
+
+<script>
+  const links = [...document.querySelectorAll<HTMLAnchorElement>("[data-filter]")];
+  const cards = [...document.querySelectorAll<HTMLElement>(".project-card")];
+  const status = document.getElementById("filter-status")!;
+
+  function apply(key: string, announce = false) {
+    if (!links.some((l) => l.dataset.filter === key)) key = "";
+    links.forEach((l) => (l.dataset.filter === key ? l.setAttribute("aria-current", "true") : l.removeAttribute("aria-current")));
+    let shown = 0;
+    cards.forEach((c) => {
+      const match = !key || c.dataset.disciplines!.split(" ").includes(key);
+      c.hidden = !match;
+      shown += +match;
+    });
+    if (announce) status.textContent = `Showing ${shown} project${shown === 1 ? "" : "s"}`;
+  }
+
+  links.forEach((l) =>
+    l.addEventListener("click", (e) => {
+      e.preventDefault();
+      const key = l.dataset.filter!;
+      history.replaceState(null, "", key ? `?d=${key}` : location.pathname);
+      apply(key, true);
+      dispatchEvent(new Event("work:filter"));
+    }),
+  );
+  apply(new URLSearchParams(location.search).get("d") ?? "");
+</script>

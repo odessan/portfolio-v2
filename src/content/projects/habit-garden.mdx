@@ -1,0 +1,28 @@
+---
+title: Habit Garden
+summary: A habit tracker where every streak grows a plant. Built to learn Flutter animation properly.
+disciplines: [mobile, side]
+type: personal
+year: 2024
+role: Designer & developer
+stack: [Flutter, Dart, Hive, Rive]
+order: 5
+links:
+  repo: https://github.com/
+---
+
+## The problem
+
+Most habit apps punish you with a broken streak counter. I wanted one that rewarded showing up, and I wanted an excuse to learn Flutter's animation system beyond the tutorials.
+
+## What I built
+
+A small offline app where each habit is a plant. Checking in waters it; missing a day only slows growth instead of resetting it. The garden becomes a visual record of the past month.
+
+## How
+
+Hive stores everything on the device, so the app works on a plane and never asks for an account. Plant growth is a Rive state machine driven by the streak data, and custom implicit animations handle the rest of the interface.
+
+## Result
+
+About two hundred people use it through a public test build. It taught me more about frame budgets and animation curves than any course, and those lessons went straight into client work.

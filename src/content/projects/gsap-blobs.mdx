@@ -1,0 +1,29 @@
+---
+title: gsap-blobs
+summary: A tiny generator for organic SVG blobs that morph smoothly with GSAP. The same ones on this site.
+disciplines: [side, web]
+type: personal
+year: 2026
+role: Author
+stack: [TypeScript, SVG, GSAP]
+featured: true
+order: 3
+links:
+  repo: https://github.com/
+---
+
+## The problem
+
+Organic shapes make a page feel alive, but hand-drawn SVG blobs rarely share a point count, so morphing between them looks like a glitch instead of a breath.
+
+## What I built
+
+A small TypeScript function that turns a seed number into a smooth closed blob. Every shape it produces has the same structure, so any two of them tween cleanly. The blobs on this portfolio come straight out of it.
+
+## How
+
+Seeded random radii are placed around a circle, then joined with Catmull-Rom curves converted to cubic Béziers. A radial gradient offset toward the top left fakes a light source, which is enough to read as soft 3D without a single image or shadow.
+
+## Result
+
+Each blob costs a few hundred bytes of markup. The generator is under forty lines, has no dependencies and runs at build time, so visitors download shapes instead of code.

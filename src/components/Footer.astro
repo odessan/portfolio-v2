@@ -1,0 +1,32 @@
+---
+import { site } from "../lib/site";
+const links = "text-body-sm text-cream/70 transition-colors hover:text-cream";
+---
+
+<footer class="border-t border-hairline bg-off-black">
+  <div class="mx-auto grid max-w-7xl grid-cols-2 gap-x-12 gap-y-10 px-4 pt-14 pb-10 md:grid-cols-[2fr_1fr_1fr] md:gap-12 md:px-8 md:py-20">
+    <div class="col-span-2 flex flex-col gap-2 md:col-span-1 md:gap-3">
+      <a href="/" class="text-subheading font-semibold text-green">{site.name}</a>
+      <p class="text-body-sm text-cream/70">{"{ Built with Astro & GSAP }"}</p>
+    </div>
+    <div class="flex flex-col gap-3">
+      <h2 class="text-caption text-cream/70">Pages</h2>
+      <ul class="flex flex-col gap-2.5">
+        <li><a class={links} href="/">Home</a></li>
+        <li><a class={links} href="/work">Work</a></li>
+        <li><a class={links} href="/#about">About</a></li>
+      </ul>
+    </div>
+    <div class="flex flex-col gap-3 max-md:items-end max-md:text-right">
+      <h2 class="text-caption text-cream/70">Contact</h2>
+      <ul class="flex flex-col gap-2.5 max-md:items-end">
+        <li><a class={links} href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><a class={links} href={site.github} rel="me">GitHub ↗</a></li>
+        <li><a class={links} href={site.linkedin} rel="me">LinkedIn ↗</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="mx-auto max-w-7xl px-4 pb-8 md:px-8 md:pb-10">
+    <p class="text-caption text-cream/70">© 2026 {site.name}</p>
+  </div>
+</footer>

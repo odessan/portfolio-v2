@@ -1,0 +1,30 @@
+---
+import Chara from "./Chara.astro";
+import DisciplineLabel from "./DisciplineLabel.astro";
+import { site } from "../lib/site";
+import { disciplineKeys } from "../lib/disciplines";
+const link = "text-body text-cream underline decoration-hairline decoration-1 underline-offset-[6px] transition-colors hover:decoration-cream";
+---
+
+<section id="about" class="mx-auto grid max-w-7xl items-center gap-8 px-4 py-20 md:grid-cols-[1fr_1fr] md:gap-12 md:px-8 md:py-32">
+  <div class="flex justify-center">
+    <Chara pose="about" data-slot="1" class="slot w-[78vw] max-w-90 md:w-full md:max-w-145" />
+  </div>
+  <div class="flex flex-col gap-10">
+    <h2 class="split-lines max-w-[22ch] text-heading-sm font-semibold">
+      I'm Edo, a software developer who builds web and mobile products end to end.
+    </h2>
+    <p class="max-w-[58ch] text-body-lg text-cream/85" data-reveal>
+      I work directly with founders and small teams, from the first sketch to the app store listing. You talk to
+      the person writing the code, so decisions are quick and nothing gets lost in handoffs.
+    </p>
+    <ul class="flex flex-wrap gap-x-8 gap-y-2" aria-label="What I do" data-reveal>
+      {disciplineKeys.map((d) => <li><DisciplineLabel discipline={d} /></li>)}
+    </ul>
+    <ul class="flex flex-wrap gap-x-8 gap-y-3" data-reveal>
+      <li><a class={link} href={site.github} rel="me">GitHub ↗</a></li>
+      <li><a class={link} href={site.linkedin} rel="me">LinkedIn ↗</a></li>
+      <li><a class={link} href={`mailto:${site.email}`}>Email</a></li>
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+@theme {
+  /* Only the palette below exists; Tailwind's defaults are removed on purpose. */
+  --color-*: initial;
+  --color-just-black: #0e100f;
+  --color-cream: #fffce1;
+  --color-muted: #7c7c6f; /* surface-50 */
+  --color-hairline: #42433d; /* surface-25 */
+  --color-off-black: #191919;
+  --color-green: #0ae448;
+  --color-light-green: #abff84;
+  --color-pink: #fec5fb; /* Mobile */
+  --color-lilac: #9d95ff; /* Side Projects */
+  --color-blue: #00bae2; /* Web */
+  --color-core-green: #dfffd1;
+  --color-lipstick-pink: #f100cb;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* One variable to swap to PP Mori later */
+  --font-sans: "DM Sans Variable", ui-sans-serif, sans-serif;
+
+  /* Fluid versions of the DESIGN.md scale. Line heights get +0.05 for cream-on-dark. */
+  --text-caption: 14px;
+  --text-caption--line-height: 1.4;
+  --text-body-sm: 16px;
+  --text-body-sm--line-height: 1.3;
+  --text-body: 19px;
+  --text-body--line-height: 1.3;
+  --text-body-lg: 23px;
+  --text-body-lg--line-height: 1.43;
+  --text-body-lg--letter-spacing: -0.01em;
+  --text-subheading: clamp(26px, 3vw, 34px);
+  --text-subheading--line-height: 1.2;
+  --text-subheading--letter-spacing: -0.01em;
+  --text-heading-sm: clamp(32px, 4vw, 44px);
+  --text-heading-sm--line-height: 1.15;
+  --text-heading-sm--letter-spacing: -0.011em;
+  --text-heading: clamp(40px, 5.2vw, 66px);
+  --text-heading--line-height: 1.05;
+  --text-heading--letter-spacing: -0.011em;
+  --text-heading-lg: clamp(48px, 8vw, 101px);
+  --text-heading-lg--line-height: 1;
+  --text-heading-lg--letter-spacing: -0.011em;
+  --text-display: clamp(72px, 17.5vw, 224px);
+  --text-display--line-height: 0.9;
+  --text-display--letter-spacing: -0.02em;
+
+  --radius-card: 8px;
+  --radius-pill: 100px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  --gradient-green: linear-gradient(114.41deg, #0ae448 20.74%, #abff84 65.5%);
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 88px;
+  }
+  body {
+    background: var(--color-just-black);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.3;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-green);
+    color: var(--color-just-black);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-cream);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* Case-study MDX body */
+.prose-case h2 {
+  font-size: var(--text-subheading);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 64px;
+  margin-bottom: 16px;
+}
+.prose-case h2:first-child {
+  margin-top: 0;
+}
+.prose-case p,
+.prose-case li {
+  font-size: var(--text-body-lg);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+.prose-case p + p {
+  margin-top: 20px;
+}
+.prose-case ul {
+  margin-top: 16px;
+  padding-left: 1.2em;
+  list-style: disc;
+}
+.prose-case li::marker {
+  color: var(--color-muted);
+}
+.prose-case a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--color-hairline);
+}
+
+/* Desktop pinned services: motion.ts adds .services-pinned; rows stack in one cell and crossfade. */
+.services-pinned .services-track {
+  display: grid;
+}
+.services-pinned .service {
+  grid-area: 1 / 1;
+}
+.prose-case a:hover {
+  text-decoration-color: var(--color-cream);
+}
+.prose-case strong {
+  font-weight: 600;
+}
+
+/* Text masks: room for descenders (g, y) that a tight line-height would clip. */
+.hero-line {
+  overflow-x: visible;
+  overflow-y: clip;
+}
+.hero-line,
+.line-mask {
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}

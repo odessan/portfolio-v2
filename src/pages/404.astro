@@ -1,0 +1,14 @@
+---
+import Base from "../layouts/Base.astro";
+import Bracket from "../components/Bracket.astro";
+import Pill from "../components/Pill.astro";
+---
+
+<Base title="Page not found" description="This page doesn't exist.">
+  <section class="mx-auto flex min-h-[60vh] max-w-7xl flex-col items-start justify-center gap-6 px-4 py-24 md:px-8">
+    <Bracket>404</Bracket>
+    <h1 class="text-heading-lg font-semibold">Nothing here.</h1>
+    <p class="text-body-lg text-cream/70">That page moved or never existed.</p>
+    <Pill href="/" variant="gradient">Back home</Pill>
+  </section>
+</Base>
